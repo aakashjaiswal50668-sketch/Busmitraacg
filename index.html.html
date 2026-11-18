@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="hi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#102a43">
+<title>Bus Mitra CG</title>
+<style>
+:root{--navy:#102a43;--blue:#1769aa;--sky:#eaf4ff;--ink:#172b4d;--muted:#66788a;--line:#dce5ee;--bg:#f5f8fc;--green:#16845b;--amber:#a76600}
+*{box-sizing:border-box}body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:var(--bg);color:var(--ink)}
+header{background:var(--navy);color:#fff;padding:17px max(18px,calc((100% - 1100px)/2));display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.brand{font-size:21px;font-weight:800;letter-spacing:.2px}.brand span{color:#8bd0ff}
+nav{display:flex;gap:7px;flex-wrap:wrap}button,.btn{border:0;border-radius:10px;padding:10px 14px;font-weight:700;cursor:pointer;background:var(--blue);color:#fff}nav button{background:#244663;color:#fff}nav button.active{background:#fff;color:var(--navy)}
+main{max-width:1100px;margin:24px auto;padding:0 16px}.hero{background:linear-gradient(120deg,#12314d,#1769aa);color:#fff;border-radius:18px;padding:25px;display:grid;grid-template-columns:1.3fr .7fr;gap:20px;align-items:center}
+.hero h1{font-size:clamp(26px,4vw,39px);margin:0 0 8px}.hero p{color:#d8eaff;margin:0}.hero .mini{background:#ffffff18;border:1px solid #ffffff35;border-radius:14px;padding:17px}
+.card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:18px;margin-top:17px;box-shadow:0 3px 14px #102a4308}
+h2{font-size:21px;margin:0 0 14px}h3{margin:0 0 7px;font-size:17px}.muted{color:var(--muted);font-size:13px}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.three{grid-template-columns:repeat(3,minmax(0,1fr))}
+label{font-size:13px;font-weight:700;display:block;margin-bottom:5px}input,select{width:100%;padding:12px;border:1px solid #cbd7e2;border-radius:10px;background:#fff;color:var(--ink);font:inherit}
+.formrow{margin-bottom:12px}.actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:12px}.secondary{background:#e9f1f8;color:var(--navy)}.danger{background:#a83232}.green{background:var(--green)}
+.bus{border:1px solid var(--line);border-radius:13px;padding:15px;margin-top:10px;display:flex;justify-content:space-between;gap:15px;align-items:center;flex-wrap:wrap}
+.pill{display:inline-block;border-radius:99px;padding:4px 9px;background:#e8f6ef;color:#146b4b;font-size:12px;font-weight:800}.price{font-size:20px;font-weight:800;color:var(--navy)}
+.hidden{display:none!important}.tabs{display:flex;gap:8px;flex-wrap:wrap;margin:16px 0}.tabs button{background:#e6edf4;color:var(--navy)}.tabs button.active{background:var(--navy);color:#fff}
+.notice{background:#fff7e6;border:1px solid #f0d59c;color:#714c0c;border-radius:12px;padding:12px;font-size:13px;margin-top:14px}
+.empty{text-align:center;color:var(--muted);padding:24px}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.stat{background:#f2f7fb;padding:13px;border-radius:12px}.stat b{font-size:23px;display:block}
+footer{max-width:1100px;margin:25px auto;padding:0 16px 25px;color:var(--muted);font-size:12px}
+table{width:100%;border-collapse:collapse;font-size:13px}td,th{text-align:left;border-bottom:1px solid var(--line);padding:10px 7px}
+@media(max-width:650px){.hero{grid-template-columns:1fr}.grid,.three{grid-template-columns:1fr}.bus{align-items:flex-start}.stats{grid-template-columns:1fr 1fr}header{align-items:flex-start}}
+</style>
+</head>
+<body>
+<header>
+  <div class="brand">🚌 Bus <span>Mitra CG</span></div>
+  <nav>
+    <button class="active" data-page="home">Passenger</button>
+    <button data-page="owner">Bus Owner</button>
+    <button data-page="admin">Admin</button>
+  </nav>
+</header>
+<main>
+<section id="home" class="page">
+  <div class="hero">
+    <div><h1>छत्तीसगढ़ की बस जानकारी, एक जगह</h1><p>बस का समय खोजें, रूट देखें और टिकट के लिए बस ऑपरेटर से संपर्क करें।</p></div>
+    <div class="mini"><div class="muted" style="color:#d8eaff">डेमो रूट</div><h2 style="margin:5px 0">Pailimeta → Salhewara</h2><div style="font-size:28px;font-weight:800">8:00 PM</div><div class="muted" style="color:#d8eaff">आखिरी बस · यूज़र द्वारा बताई गई टाइमिंग</div></div>
+  </div>
+  <div class="card">
+    <h2>बस खोजें</h2>
+    <div class="grid">
+      <div class="formrow"><label for="from">कहाँ से (From)</label><input id="from" list="places" placeholder="जैसे Pailimeta"></div>
+      <div class="formrow"><label for="to">कहाँ तक (To)</label><input id="to" list="places" placeholder="जैसे Salhewara"></div>
+      <datalist id="places"><option>Pailimeta</option><option>Salhewara</option><option>Khairagarh</option><option>Rajnandgaon</option><option>Durg</option><option>Raipur</option><option>Dongargarh</option><option>Chhuikhadan</option></datalist>
+    </div>
+    <div class="actions"><button onclick="searchBuses()">बस खोजें</button><button class="secondary" onclick="showAll()">सभी बसें</button></div>
+    <div id="results"></div>
+  </div>
+  <div class="card"><h2>यात्रियों के लिए</h2><p class="muted">यह शुरुआती डेमो है। अभी ऑनलाइन टिकट/पेमेंट की पुष्टि नहीं होती। टिकट की उपलब्धता, किराया और प्रस्थान समय बस ऑपरेटर से कन्फर्म करें।</p></div>
+</section>
+
+<section id="owner" class="page hidden">
+  <div class="hero"><div><h1>Bus Owner Dashboard</h1><p>अपनी बस, रूट और टाइमिंग जोड़ें। बदलाव इस डेमो ब्राउज़र में सेव होंगे।</p></div><div class="mini"><h2>ऑपरेटर प्लान</h2><div><b>₹199 / महीना</b></div><div><b>₹1,799 / साल</b></div><div class="muted" style="color:#d8eaff">प्रस्तावित शुरुआती कीमत</div></div></div>
+  <div class="card">
+    <h2>बस की जानकारी जोड़ें</h2>
+    <div class="grid">
+      <div class="formrow"><label>बस / ऑपरेटर का नाम</label><input id="busname" placeholder="जैसे Maa Travels"></div>
+      <div class="formrow"><label>बस नंबर (वैकल्पिक)</label><input id="busno" placeholder="CG 08 AB 1234"></div>
+      <div class="formrow"><label>कहाँ से</label><input id="busfrom" placeholder="Pailimeta"></div>
+      <div class="formrow"><label>कहाँ तक</label><input id="busto" placeholder="Salhewara"></div>
+      <div class="formrow"><label>प्रस्थान समय</label><input id="bustime" type="time"></div>
+      <div class="formrow"><label>किराया (₹)</label><input id="fare" type="number" min="0" placeholder="उदा. 40"></div>
+      <div class="formrow"><label>संपर्क नंबर</label><input id="phone" inputmode="numeric" maxlength="10" placeholder="10 अंकों का नंबर"></div>
+      <div class="formrow"><label>दिन</label><select id="days"><option>रोज़ाना</option><option>सोमवार से शनिवार</option><option>केवल रविवार</option><option>ऑपरेटर से पूछें</option></select></div>
+    </div>
+    <div class="actions"><button onclick="addBus()">बस जोड़ें</button><button class="secondary" onclick="clearOwnerForm()">फॉर्म साफ करें</button></div>
+    <div class="notice">डेमो में बस जोड़ना मुफ्त है। असली सेवा में ऑपरेटर की पहचान/बस दस्तावेज़ जाँच और सब्सक्रिप्शन एक्टिवेशन के बाद लिस्टिंग प्रकाशित होगी।</div>
+  </div>
+  <div class="card"><h2>मेरी जोड़ी गई बसें</h2><div id="ownerlist"></div></div>
+</section>
+
+<section id="admin" class="page hidden">
+  <div class="hero"><div><h1>Admin Control Panel</h1><p>लिस्टिंग, ऑपरेटर और सब्सक्रिप्शन का डेमो प्रबंधन।</p></div><div class="mini"><h2>योजना</h2><p style="color:#fff">Monthly ₹199<br>Yearly ₹1,799</p></div></div>
+  <div class="card">
+    <h2>ओवरव्यू</h2><div class="stats"><div class="stat"><span class="muted">कुल बसें</span><b id="totalbuses">0</b></div><div class="stat"><span class="muted">ऑपरेटर</span><b id="totalowners">0</b></div><div class="stat"><span class="muted">डेमो बुकिंग</span><b id="totalbookings">0</b></div></div>
+  </div>
+  <div class="card"><h2>बस लिस्टिंग मैनेज करें</h2><div id="adminlist"></div></div>
+  <div class="card"><h2>सब्सक्रिप्शन प्लान</h2><table><tr><th>प्लान</th><th>फीस</th><th>स्थिति</th></tr><tr><td>Monthly</td><td>₹199</td><td>प्रस्तावित</td></tr><tr><td>Yearly</td><td>₹1,799</td><td>प्रस्तावित</td></tr></table><p class="muted">यहाँ अभी पेमेंट गेटवे या ऑटो-रिन्यूअल कनेक्ट नहीं है।</p></div>
+</section>
+</main>
+<footer>Bus Mitra CG · प्रारंभिक प्रोटोटाइप · बस टाइमिंग और किराया बदल सकते हैं; यात्रा से पहले ऑपरेटर से पुष्टि करें।</footer>
+<script>
+const KEY='bustime_cg_demo_v1';
+let buses=JSON.parse(localStorage.getItem(KEY)||'null')||[
+{id:1,name:'Local Bus',no:'',from:'Pailimeta',to:'Salhewara',time:'20:00',fare:'',phone:'',days:'रोज़ाना',status:'Pending',owner:'Demo'}
+];
+let bookings=JSON.parse(localStorage.getItem('bustime_bookings_v1')||'[]');
+function save(){localStorage.setItem(KEY,JSON.stringify(buses));localStorage.setItem('bustime_bookings_v1',JSON.stringify(bookings))}
+function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function time12(t){if(!t)return 'समय नहीं दिया';let [h,m]=t.split(':').map(Number);return `${(h%12)||12}:${String(m).padStart(2,'0')} ${h>=12?'PM':'AM'}`}
+document.querySelectorAll('nav button').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('nav button').forEach(x=>x.classList.toggle('active',x===b));document.querySelectorAll('.page').forEach(p=>p.classList.toggle('hidden',p.id!==b.dataset.page));if(b.dataset.page==='owner')renderOwner();if(b.dataset.page==='admin')renderAdmin()}));
+function busCard(b,admin=false){return `<div class="bus"><div><h3>${esc(b.name)}</h3><div>${esc(b.from)} → ${esc(b.to)}</div><div class="muted">${esc(b.no||'बस नंबर उपलब्ध नहीं')} · ${esc(b.days||'दिन नहीं दिए')}</div><div class="muted">संपर्क: ${esc(b.phone||'ऑपरेटर नंबर उपलब्ध नहीं')}</div></div><div><div class="price">${time12(b.time)}</div><div class="muted">${b.fare?'किराया ₹'+esc(b.fare):'किराया पूछें'}</div>${admin?`<span class="pill">${esc(b.status)}</span>`:''}</div><div class="actions"><button class="secondary" onclick="requestBooking(${b.id})">टिकट पूछें</button>${admin?`<button class="danger" onclick="removeBus(${b.id})">हटाएँ</button>`:''}</div></div>`}
+function searchBuses(){let f=document.getElementById('from').value.trim().toLowerCase(),t=document.getElementById('to').value.trim().toLowerCase();let found=buses.filter(b=>(!f||b.from.toLowerCase().includes(f))&&(!t||b.to.toLowerCase().includes(t)));document.getElementById('results').innerHTML=found.length?found.sort((a,b)=>a.time.localeCompare(b.time)).map(b=>busCard(b)).join(''):'<div class="empty">इस रूट पर अभी कोई बस लिस्ट नहीं है।</div>'}
+function showAll(){document.getElementById('from').value='';document.getElementById('to').value='';searchBuses()}
+function addBus(){let name=busname.value.trim(),from=busfrom.value.trim(),to=busto.value.trim(),time=bustime.value,phone=document.getElementById('phone').value.trim();if(!name||!from||!to||!time){alert('बस का नाम, रूट और समय भरें।');return}if(phone&&!/^[0-9]{10}$/.test(phone)){alert('संपर्क नंबर 10 अंकों का होना चाहिए।');return}buses.push({id:Date.now(),name,no:busno.value.trim(),from,to,time,fare:fare.value,phone,days:days.value,status:'Pending',owner:name});save();clearOwnerForm();renderOwner();renderAdmin();alert('बस डेमो में जोड़ दी गई। Admin approval के बाद इसे लाइव दिखाना चाहिए।')}
+function clearOwnerForm(){['busname','busno','busfrom','busto','bustime','fare','phone'].forEach(id=>document.getElementById(id).value='')}
+function renderOwner(){ownerlist.innerHTML=buses.length?buses.map(b=>busCard(b,true)).join(''):'<div class="empty">अभी कोई बस नहीं जोड़ी गई।</div>'}
+function renderAdmin(){totalbuses.textContent=buses.length;totalowners.textContent=new Set(buses.map(b=>b.owner)).size;totalbookings.textContent=bookings.length;adminlist.innerHTML=buses.length?buses.map(b=>busCard(b,true)+`<div class="actions" style="margin:0 0 12px"><button class="green" onclick="approveBus(${b.id})">Approve</button><button class="secondary" onclick="pendingBus(${b.id})">Pending रखें</button></div>`).join(''):'<div class="empty">कोई बस उपलब्ध नहीं।</div>'}
+function approveBus(id){let b=buses.find(x=>x.id===id);if(b)b.status='Approved';save();renderAdmin();renderOwner()}
+function pendingBus(id){let b=buses.find(x=>x.id===id);if(b)b.status='Pending';save();renderAdmin();renderOwner()}
+function removeBus(id){if(confirm('इस डेमो लिस्टिंग को हटाएँ?')){buses=buses.filter(x=>x.id!==id);save();renderOwner();renderAdmin();searchBuses()}}
+function requestBooking(id){let b=buses.find(x=>x.id===id);if(!b)return;let name=prompt('यात्री का नाम लिखें (डेमो):');if(!name)return;let count=prompt('कितनी सीटें चाहिए?','1');if(!count||!Number.isInteger(Number(count))||Number(count)<1){alert('सीटों की संख्या सही लिखें।');return}bookings.push({id:Date.now(),bus:b.name,route:b.from+' → '+b.to,name,seats:Number(count)});save();alert('यह केवल टिकट पूछताछ है। टिकट कन्फर्म करने के लिए बस ऑपरेटर से सीधे संपर्क करें: '+(b.phone||'नंबर उपलब्ध नहीं'));renderAdmin()}
+renderOwner();renderAdmin();showAll();
+</script>
+</body></html>
